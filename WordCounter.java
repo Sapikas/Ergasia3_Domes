@@ -14,10 +14,9 @@ public interface WordCounter {
 		void removeStopWord(String w);
 		void print‘reeAlphabetically(PrintStream stream);
 		void print‘reeByFrequency(PrintStream stream);
-		
+		//float getSum();
 		
 		//TreeNode containsNode(String string);
-		void PrintStach();
-	
+		//TreeNode findRoot();
 
 }

@@ -18,4 +18,12 @@ public class WordFreq {
 	public void setKey(String word) {
 		this.word = word;
 	}
+	
+	public void addFreq() {
+		this.freq++;
+	}
+	
+	public int getFreq() {
+		return this.freq;
+	}
 }
