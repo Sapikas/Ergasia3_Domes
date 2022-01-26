@@ -49,6 +49,45 @@ public class BST implements WordCounter {
 	}
 	/*End of TreeNode*/
 	
+	/*START NODE CLASS*/
+	class Node {
+	    int value;
+	    String key;
+	    Node left;
+	    Node right;
+
+	    Node(int value, String key) {
+	        this.value = value;
+	        this.key = key;
+	        right = null;
+	        left = null;
+	    }
+	}
+	/*END NODE CLASS*/
+	
+	/*HELPRES FOR NODE CLASS*/
+	Node rootNode;
+		
+	private Node addRecursive2(Node current, int value, String key) {
+	    if (current == null) {
+	        return new Node(value, key);
+	    }
+
+	    if (value < current.value) {
+	        current.left = addRecursive2(current.left, value, key);
+	    } else {
+	        current.right = addRecursive2(current.right, value, key);
+	    } 
+
+	    return current;
+	}
+	
+	public void add(int value, String key) {
+	    rootNode = addRecursive2(rootNode, value, key);
+	}
+	/*end of helpers*/
+	
+	
 	private int height(TreeNode t)
     {
  
@@ -60,9 +99,11 @@ public class BST implements WordCounter {
         return lhs > rhs ? lhs : rhs;
     }
 	
-	
+	//private BST bst1;
 	private TreeNode root;
+	//private TreeNode rootInt;
 	private int size = 0;
+	LinkList ll = new LinkList();
 	
 	private TreeNode addRecursive(TreeNode current, String w) {
 		//WordFreq data = new WordFreq(w, 1);
@@ -121,6 +162,20 @@ public class BST implements WordCounter {
 		//root = rootInsert(root, data, null);
 		root = addRecursive(root, w);
 	}
+	
+	
+	/*If w exists in TreeNode take the frequence*/
+    private int nume = 1;
+    public void traverseInOrder(TreeNode node, String w) {
+	    if (node != null) {
+	        traverseInOrder(node.left, w);
+	        if (node.item.key() == w) {
+	        	nume = node.item.getFreq();
+	        }
+	        traverseInOrder(node.right, w);
+	    }
+	}
+	
 
 	@Override
 	public WordFreq search(String w) {
@@ -188,25 +243,53 @@ public class BST implements WordCounter {
 	@Override
 	public int getTotalWords() {
 		// TODO Auto-generated method stub
-		return 0;
+		if (sum == 0) {
+			toString();
+		}
+		int intValue = (int) sum;
+		return intValue;
 	}
 
 	@Override
 	public int getDistinctWords() {
 		// TODO Auto-generated method stub
-		return 0;
+		if (count == 0) {
+			toString();
+		}
+		int intValue = (int) count;
+		return intValue;
 	}
 
 	@Override
 	public int getFrequency(String w) {
 		// TODO Auto-generated method stub
-		return 0;
+		traverseInOrder(root,w);
+		return nume;
 	}
-
+	
+	/*FOR getMaxiumFrequency*/
+	int max = 0;
+	WordFreq wMax = null;
+	public WordFreq maxValue(TreeNode node)
+	{ 
+	    if (node!=null) {
+	    	if (max < node.item.getFreq()) {
+	    		max = node.item.getFreq();
+	    		wMax= node.item;
+	    	}
+	    	maxValue(node.left);
+	    	maxValue(node.right);
+	    }
+	    return wMax;
+	}
+	
+	/*End FOR getMaxiumFrequency*/
+	
 	@Override
 	public WordFreq getMaximumFrequency() {
 		// TODO Auto-generated method stub
-		return null;
+		WordFreq item = maxValue(root);
+		return item;
 	}
 	
 	private double sum = 0;
@@ -221,26 +304,52 @@ public class BST implements WordCounter {
 	@Override
 	public void addStopWord(String w) {
 		// TODO Auto-generated method stub
-		
+		ll.push(w);
 	}
 
 	@Override
 	public void removeStopWord(String w) {
 		// TODO Auto-generated method stub
-		
+		ll.deleteNode(w);
+		ll.printStack(null);
 	}
 
 	@Override
 	public void printÔreeAlphabetically(PrintStream stream) {
 		// TODO Auto-generated method stub
-		
+		inOrder(root);
 	}
+	
+	/*HELP FOR printÔreeByFrequency*/
+	
+	/*Add in Node the items of TreeNode*/
+	  public void inOrderHelp(TreeNode node) {
+		if (node==null) {
+			return;
+		}
+		inOrderHelp(node.left);
+		this.add(node.item.getFreq(), node.item.key());
+		inOrderHelp(node.right);
+	  }
+	  
+	  /*Print all the values from Node*/
+	  public void traverseInOrderNode(Node node) {
+	    if (node != null) {
+	        traverseInOrderNode(node.left);
+	        System.out.println(node.key + " " + node.value + " ");
+	        traverseInOrderNode(node.right);
+	    }
+	  }
+  
+	  /*HELP FOR printÔreeByFrequency*/
 
 	@Override
 	public void printÔreeByFrequency(PrintStream stream) {
 		// TODO Auto-generated method stub
-		
+		inOrderHelp(root);
+		traverseInOrderNode(rootNode);
 	}
+	
 	
 	
 	private TreeNode rotateLeft(TreeNode pivot) {
@@ -321,17 +430,15 @@ public class BST implements WordCounter {
     }
     
     /*HELPER METHODS*/
-    
-    private int nume = 1;
-    public void traverseInOrder(TreeNode node, String w) {
-	    if (node != null) {
-	        traverseInOrder(node.left, w);
-	        if (node.item.key() == w) {
-	        	nume = node.item.getFreq();
-	        }
-	        traverseInOrder(node.right, w);
-	    }
-	}
+
+    public void inOrder(TreeNode node) {
+    	if (node==null) {
+    		return;
+    	}
+    	inOrder(node.left);
+    	System.out.println(node.item.key() + " " + node.item.getFreq());
+    	inOrder(node.right);
+    }
     
     /*END HELPER METHODS*/
     
