@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 
 public class BST implements WordCounter {
@@ -99,14 +100,13 @@ public class BST implements WordCounter {
         return lhs > rhs ? lhs : rhs;
     }
 	
-	//private BST bst1;
 	private TreeNode root;
-	//private TreeNode rootInt;
+
 	private int size = 0;
 	LinkList ll = new LinkList();
 	
 	private TreeNode addRecursive(TreeNode current, String w) {
-		//WordFreq data = new WordFreq(w, 1);
+	
 		if (current == null) {
 			WordFreq data = new WordFreq(w, 1);
 	        return new TreeNode(data);
@@ -158,14 +158,12 @@ public class BST implements WordCounter {
 	@Override
 	public void insert(String w) {
 		// TODO Auto-generated method stub
-		//WordFreq data = new WordFreq(w, size);
-		//root = rootInsert(root, data, null);
 		root = addRecursive(root, w);
 	}
 	
 	
 	/*If w exists in TreeNode take the frequence*/
-    private int nume = 1;
+    private int nume = 0;
     public void traverseInOrder(TreeNode node, String w) {
 	    if (node != null) {
 	        traverseInOrder(node.left, w);
@@ -182,10 +180,8 @@ public class BST implements WordCounter {
 		// TODO Auto-generated method stub
 		traverseInOrder(root, w);
 		if (nume > getMeanFrequency()) {
-			System.out.println("I am here");
 			remove(w);
 			WordFreq data = new WordFreq(w, nume);
-			//rootInsert(root, data, null);
 			TreeNode test = insert_at_rootRec(data, root);
 			if (test != null) {
 				return test.item;
@@ -200,7 +196,7 @@ public class BST implements WordCounter {
 	    }
 
 	    if (value == current.item.key()) {
-	    	//System.out.println(current.item.getFreq());
+	    	
 	    	if (current.left == null && current.right == null) {
 	    	    return null;
 	    	}
@@ -237,7 +233,12 @@ public class BST implements WordCounter {
 	@Override
 	public void load(String filename) {
 		// TODO Auto-generated method stub
-		
+		try {
+			txtReader txt = new txtReader(filename, ll);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -456,7 +457,7 @@ public class BST implements WordCounter {
     }
     
     public String toString(){
-    	System.out.println(root.item.key());
+    	//System.out.println(root.item.key());
     	return toStringR(root);
     }
 

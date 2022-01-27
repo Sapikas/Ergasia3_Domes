@@ -1,4 +1,5 @@
 import java.io.PrintStream;
+
 import java.util.NoSuchElementException;
 
 public class LinkList {
@@ -11,29 +12,14 @@ public class LinkList {
 			 next = n;
 		 }
 
-		 public void setData (String val) {
-			 data = val;
-		 }
-
-		 public String getData () {
-			 return data;
-		 }
-
-		 public Node getNext () {
-			 return next;
-		 }
-
-		 public void setNext (Node n) {
-			 next = n;
-		 }
 	} //λιστα μονής σύνδεσης
 	
 	private Node top = null;
 	int size= 0;
 	
-	public boolean isEmpty() {
-		return size == 0;
-	}
+//	public boolean isEmpty() {
+//		return size == 0;
+//	}
 
 	
 	public void push(String item) {
@@ -42,21 +28,6 @@ public class LinkList {
 		size++;
 	}
 
-	
-	public String pop() throws NoSuchElementException {
-		 String data = null;
-		 if (isEmpty()) throw new NoSuchElementException();
-		 else {
-			 data = top.getData(); 
-			 Node tmp = top; 
-			 top = top.getNext(); 
-			 tmp.setNext(null); 
-			
-			 size--;
-		 }
-		 return data;
-	}
-	
 	void deleteNode(String key)
     {
         // Store head node
@@ -82,34 +53,25 @@ public class LinkList {
         // Unlink the node from linked list
         prev.next = temp.next;
     }
-
 	
-	public String peek() throws NoSuchElementException {
-		String data = null;
-		 if (isEmpty()) throw new NoSuchElementException();
-		 else data = top.getData(); 
-		 return data;
-
-	}
-
-	
-	public void printStack(PrintStream stream) {
-		  Node current = top;    
+	public boolean printStack(String w) {
+		  Node current = top; 
 	        if(top== null) {    
 	            System.out.println("List is empty");    
-	            return;    
+	            return false;    
 	        }    
 	        System.out.println("Nodes are : ");    
-	        while(current != null) {        
-	            System.out.println(current.data + " ");    
+	        while(current != null) {  
+	        	String ww = current.data.toLowerCase();
+	        	boolean areEqual = ww.equals(w);
+	        	if (areEqual) {
+	        		return true;
+	        	}
 	            current = current.next;    
 	        }    
-	        System.out.println(); 
+	        return false;
 		
 	}
 
-	
-	public int size() {
-		return this.size;
-	}
+
 }
